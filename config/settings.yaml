@@ -1,0 +1,23 @@
+# Pipeline settings. Non-secret values only; secrets live in .env / GitHub Secrets.
+
+backfill:
+  # Initial historical period (inclusive, UTC dates).
+  # NOTE: end date equals the project start date. Source publication lag will be
+  # verified in Phase 2 and this may move a few days earlier.
+  start_date: "2026-08-15"
+  end_date: "2026-11-15"
+
+paths:
+  raw_data: data/raw
+  processed_data: data/processed
+  logs: logs
+
+http:
+  timeout_seconds: 30
+  max_retries: 5
+  backoff_min_seconds: 2
+  backoff_max_seconds: 60
+
+logging:
+  level: INFO
+  file: logs/pipeline.log

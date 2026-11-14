@@ -1,0 +1,4 @@
+# Development and test dependencies. Includes runtime dependencies.
+# Install: python -m pip install -r requirements-dev.txt
+-r requirements.txt
+pytest==9.2.0

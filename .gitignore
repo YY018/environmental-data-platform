@@ -1,0 +1,28 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+
+# --- Virtual environment ---
+.venv/
+
+# --- Python artefacts ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Data and logs: ignore contents, keep folder placeholders ---
+data/raw/**/*
+!data/raw/**/
+!data/raw/**/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# --- Editor / OS ---
+.vscode/
+Thumbs.db
+.DS_Store

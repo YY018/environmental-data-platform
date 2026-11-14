@@ -1,0 +1,9 @@
+# Runtime dependencies (direct only, pinned for reproducible builds).
+# Install: python -m pip install -r requirements.txt
+requests==2.34.2          # HTTP client for the three APIs
+pandas==3.1.1             # Transformation and validation
+SQLAlchemy==2.1.8         # Database access layer
+psycopg[binary]==3.3.9    # PostgreSQL driver used by SQLAlchemy (postgresql+psycopg://)
+python-dotenv==1.2.4      # Loads secrets from .env in local development
+tenacity==9.2.1           # Retry with exponential backoff
+PyYAML==6.0.3             # Reads config/*.yaml
