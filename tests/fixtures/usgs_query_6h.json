@@ -1,0 +1,421 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "generated": 1794697672000,
+  "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2026-11-13T00%3A00%3A00&endtime=2026-11-13T06%3A00%3A00&minmagnitude=2.5",
+  "title": "USGS Earthquakes",
+  "status": 200,
+  "api": "2.8.4",
+  "count": 10
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.7,
+    "place": "27 km NNE of Labuan Lombok, Indonesia",
+    "time": 1794545373549,
+    "updated": 1794548167087,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txy5",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txy5&format=geojson",
+    "felt": 1,
+    "cdi": 2,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 340,
+    "net": "us",
+    "code": "7000txy5",
+    "ids": ",us7000txy5,",
+    "sources": ",us,",
+    "types": ",dyfi,origin,phase-data,",
+    "nst": 26,
+    "dmin": 4.393,
+    "rms": 0.91,
+    "gap": 83,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.7 - 27 km NNE of Labuan Lombok, Indonesia"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.7507,
+     -8.262,
+     9.626
+    ]
+   },
+   "id": "us7000txy5"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 3.5,
+    "place": "88 km SSE of King Cove, Alaska",
+    "time": 1794540477345,
+    "updated": 1794551368373,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026wlxvxl",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=aka2026wlxvxl&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": 2.213,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 188,
+    "net": "ak",
+    "code": "a2026wlxvxl",
+    "ids": ",aka2026wlxvxl,",
+    "sources": ",ak,",
+    "types": ",origin,phase-data,shakemap,",
+    "nst": 54,
+    "dmin": 0.8,
+    "rms": 0.5,
+    "gap": 196,
+    "magType": "ml",
+    "type": "earthquake",
+    "title": "M 3.5 - 88 km SSE of King Cove, Alaska"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -161.58,
+     54.394,
+     0
+    ]
+   },
+   "id": "aka2026wlxvxl"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.2,
+    "place": "95 km W of San Antonio de los Cobres, Argentina",
+    "time": 1794539475340,
+    "updated": 1794547537040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txy0",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txy0&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 271,
+    "net": "us",
+    "code": "7000txy0",
+    "ids": ",us7000txy0,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 23,
+    "dmin": 1.508,
+    "rms": 1.3,
+    "gap": 89,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.2 - 95 km W of San Antonio de los Cobres, Argentina"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -67.263,
+     -24.2106,
+     176.658
+    ]
+   },
+   "id": "us7000txy0"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.9,
+    "place": "Pagan region, Northern Mariana Islands",
+    "time": 1794538503370,
+    "updated": 1794539201040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txxy",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txxy&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 369,
+    "net": "us",
+    "code": "7000txxy",
+    "ids": ",us7000txxy,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 53,
+    "dmin": 3.643,
+    "rms": 0.71,
+    "gap": 102,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.9 - Pagan region, Northern Mariana Islands"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     145.6025,
+     18.8925,
+     219.572
+    ]
+   },
+   "id": "us7000txxy"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.5,
+    "place": "278 km E of Levuka, Fiji",
+    "time": 1794536783505,
+    "updated": 1794546045040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txxv",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txxv&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 312,
+    "net": "us",
+    "code": "7000txxv",
+    "ids": ",us7000txxv,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 59,
+    "dmin": 2.863,
+    "rms": 1,
+    "gap": 41,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.5 - 278 km E of Levuka, Fiji"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -178.0523,
+     -17.9443,
+     527.134
+    ]
+   },
+   "id": "us7000txxv"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 2.53,
+    "place": "8 km SE of San Pedro, CA",
+    "time": 1794535914590,
+    "updated": 1794606734892,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci41361583",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ci41361583&format=geojson",
+    "felt": 16,
+    "cdi": 3.3,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 104,
+    "net": "ci",
+    "code": "41361583",
+    "ids": ",ci41361583,us7000txxt,",
+    "sources": ",ci,us,",
+    "types": ",dyfi,focal-mechanism,nearby-cities,origin,phase-data,scitech-link,",
+    "nst": 90,
+    "dmin": 0.05922,
+    "rms": 0.28,
+    "gap": 85,
+    "magType": "ml",
+    "type": "earthquake",
+    "title": "M 2.5 - 8 km SE of San Pedro, CA"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -118.23383,
+     33.68083,
+     7.84
+    ]
+   },
+   "id": "ci41361583"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.3,
+    "place": "91 km W of San Antonio de los Cobres, Argentina",
+    "time": 1794534272807,
+    "updated": 1794545087040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txxp",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txxp&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 284,
+    "net": "us",
+    "code": "7000txxp",
+    "ids": ",us7000txxp,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 19,
+    "dmin": 1.504,
+    "rms": 1.13,
+    "gap": 112,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.3 - 91 km W of San Antonio de los Cobres, Argentina"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -67.2224,
+     -24.1797,
+     207.347
+    ]
+   },
+   "id": "us7000txxp"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 3.36,
+    "place": "98 km N of San Juan, Puerto Rico",
+    "time": 1794533827490,
+    "updated": 1794591218532,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71539148",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=pr71539148&format=geojson",
+    "felt": 1,
+    "cdi": 1,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 174,
+    "net": "pr",
+    "code": "71539148",
+    "ids": ",pr71539148,",
+    "sources": ",pr,",
+    "types": ",dyfi,origin,phase-data,",
+    "nst": 17,
+    "dmin": 1.044,
+    "rms": 0.31,
+    "gap": 261,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 3.4 - 98 km N of San Juan, Puerto Rico"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.1013333333333,
+     19.3588333333333,
+     29.27
+    ]
+   },
+   "id": "pr71539148"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 5,
+    "place": "85 km W of Mwene-Ditu, Democratic Republic of the Congo",
+    "time": 1794532366186,
+    "updated": 1794533249040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txxl",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txxl&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 385,
+    "net": "us",
+    "code": "7000txxl",
+    "ids": ",us7000txxl,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 57,
+    "dmin": 9.891,
+    "rms": 0.63,
+    "gap": 72,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 5.0 - 85 km W of Mwene-Ditu, Democratic Republic of the Congo"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     22.68,
+     -6.9392,
+     10
+    ]
+   },
+   "id": "us7000txxl"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 5.1,
+    "place": "39 km S of Moíres, Greece",
+    "time": 1794528304104,
+    "updated": 1794532906219,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000txx9",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000txx9&format=geojson",
+    "felt": 2,
+    "cdi": 4.1,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 401,
+    "net": "us",
+    "code": "7000txx9",
+    "ids": ",us7000txx9,",
+    "sources": ",us,",
+    "types": ",dyfi,origin,phase-data,",
+    "nst": 94,
+    "dmin": 0.59,
+    "rms": 0.84,
+    "gap": 63,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 5.1 - 39 km S of Moíres, Greece"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     24.8798,
+     34.6967,
+     43.358
+    ]
+   },
+   "id": "us7000txx9"
+  }
+ ],
+ "bbox": [
+  -178.0523,
+  -24.2106,
+  0,
+  145.6025,
+  54.394,
+  527.134
+ ]
+}

@@ -1,13 +1,25 @@
-# Source definitions. Endpoints and parameters are verified against official
-# documentation in Phase 2 before any extractor depends on them.
+# Source definitions. Every value here was verified against official docs and
+# live responses on 2026-11-15. See docs/api_exploration.md for evidence.
 
 open_meteo:
   enabled: true
   archive_url: https://archive-api.open-meteo.com/v1/archive
   auth: none
-  # Hourly variables: finalised in Phase 2 after inspecting real responses.
-  hourly_variables: []
-  # City coordinates (WGS84, city centre, approximate).
+  # Free tier: 600/min, 5,000/hour, 10,000/day. A request covering more than
+  # 2 weeks or more than 10 variables counts as multiple calls.
+  request_window_days: 14
+  # Re-fetch recent days on every incremental run: the newest days come from the
+  # IFS model and are later superseded by ERA5 (5-day delay).
+  incremental_overlap_days: 7
+  timezone: UTC
+  hourly_variables:
+    - temperature_2m        # °C
+    - relative_humidity_2m  # %
+    - precipitation         # mm
+    - wind_speed_10m        # km/h
+    - weather_code          # WMO code
+  # Requested city-centre coordinates (WGS84). The API snaps these to its model
+  # grid and returns the grid point, which we also store.
   locations:
     - { name: London,     latitude: 51.5074, longitude: -0.1278 }
     - { name: Birmingham, latitude: 52.4862, longitude: -1.8904 }
@@ -22,14 +34,36 @@ open_meteo:
 
 openaq:
   enabled: true
-  base_url: https://api.openaq.org/v3   # to be verified in Phase 2
-  auth: api_key                          # read from OPENAQ_API_KEY
-  # Sensor IDs: selected in Phase 2 after checking real historical coverage.
-  sensor_ids: []
+  base_url: https://api.openaq.org/v3
+  auth: api_key                 # header X-API-Key, value from OPENAQ_API_KEY
+  # Free tier: 60/min and 2,000/hour per key; HTTP 429 when exceeded.
+  page_limit: 1000              # documented maximum per page
+  request_window_days: 92       # docs recommend <= 1 year per /hours request
+  incremental_overlap_hours: 48 # re-read recent hours for late-arriving data
+  # PM2.5 sensors selected by measured hourly coverage for 2026-08-15..2026-11-14
+  # (2,208 expected hours). Cardiff has no active station; it is a known gap.
+  sensors:
+    - { sensor_id: 1561901,  location_id: 270693,  city: London,     name: Waterloo Place,           coverage_pct: 95.2, reference_monitor: true }
+    - { sensor_id: 14153070, location_id: 4946351, city: Birmingham, name: "2020",                   coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 7897367,  location_id: 2453317, city: Birmingham, name: University of Birmingham 2, coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 11657641, location_id: 3316776, city: Manchester, name: Fairholme Road,           coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 15555231, location_id: 6254734, city: Leeds,      name: Dean House,               coverage_pct: 96.1, reference_monitor: false }
+    - { sensor_id: 7981356,  location_id: 2532110, city: Liverpool,  name: Lakeland Close,           coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 6738569,  location_id: 1421024, city: Bristol,    name: Northcote Street,         coverage_pct: 96.3, reference_monitor: false }
+    - { sensor_id: 14153861, location_id: 3400894, city: Glasgow,    name: Kilbowie Rd Clydebank,    coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 14153846, location_id: 3400891, city: Glasgow,    name: Hardgate Clydebank,       coverage_pct: 99.5, reference_monitor: false }
+    - { sensor_id: 12973502, location_id: 4303095, city: Edinburgh,  name: Edinburgh,                coverage_pct: 99.7, reference_monitor: false }
+    - { sensor_id: 15613846, location_id: 6262561, city: Edinburgh,  name: Blackford Bank,           coverage_pct: 92.4, reference_monitor: false }
+    - { sensor_id: 14099778, location_id: 5760422, city: Belfast,    name: Ballybeen,                coverage_pct: 97.1, reference_monitor: false }
 
 usgs:
   enabled: true
   query_url: https://earthquake.usgs.gov/fdsnws/event/1/query
+  count_url: https://earthquake.usgs.gov/fdsnws/event/1/count
   live_feed_url: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson
   auth: none
   min_magnitude: 2.5
+  max_results_per_query: 20000  # documented hard limit (HTTP 400 above it)
+  request_window_days: 31
+  # Incremental runs use updatedafter so revised events are re-fetched and upserted.
+  incremental_overlap_hours: 24
