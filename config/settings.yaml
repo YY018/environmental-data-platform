@@ -2,8 +2,8 @@
 
 backfill:
   # Initial historical period (inclusive, UTC dates).
-  # End date is 14 Nov: the Open-Meteo archive rejects end_date beyond yesterday
-  # (verified 2026-11-15). Incremental ETL takes over from here.
+  # End date is 14 Nov: the Open-Meteo archive rejects end dates after the current UTC date.
+  # Incremental ETL takes over from here.
   start_date: "2026-08-15"
   end_date: "2026-11-14"
 

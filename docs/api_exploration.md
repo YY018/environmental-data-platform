@@ -19,7 +19,7 @@ Docs: https://open-meteo.com/en/docs/historical-weather-api
 |---|---|
 | Authentication | None. |
 | Rate limits | 600 calls/min, 5,000/hour, 10,000/day on the free non-commercial tier. A request covering more than 2 weeks or more than 10 variables counts as multiple calls. **[verified-docs]** (https://open-meteo.com/en/terms, /en/pricing) |
-| Latest date | `end_date=2026-11-15` returned HTTP 400: *"Parameter 'end_date' is out of allowed range from 1940-01-01 to 2026-11-14"*. Data was complete up to 2026-11-14T23:00. **[verified-live]** |
+| Latest date | `end_date=2026-11-15` returned HTTP 400: *"Parameter 'end_date' is out of allowed range from 1940-01-01 to 2026-11-14"*. At that moment it was 2026-11-14 ~23:00 **UTC** (04:30 on 15 Nov on the development laptop, UTC+5:30), so the archive accepts dates up to the **current UTC date**. Values for the current day are model output, not final reanalysis. **[verified-live]** |
 | Data sources | The default "Best match" combines IFS HRES (no delay) with ERA5 and ERA5-Land (5-day delay). **[verified-docs]** |
 | Revisions | The most recent ~5 days probably come from IFS and are replaced once ERA5 arrives, so incremental runs re-fetch a 7-day overlap. **[inference]** |
 | Timestamps | `"2026-11-01T00:00"`, with no offset suffix. The offset is given separately as `utc_offset_seconds` (0 when `timezone=UTC`). The transform must attach UTC explicitly. **[verified-live]** |
@@ -42,7 +42,7 @@ Base URL: `https://api.openaq.org/v3`. Docs: https://docs.openaq.org/
 | Time convention | Each row has `period.datetimeFrom.utc` and `period.datetimeTo.utc`. We key rows on `datetimeFrom` (the period start). **[verified-live]** |
 | Record fields | `value`, `parameter{id,name,units}`, `period{...}`, `summary{min..max,avg,sd}`, `coverage{expectedCount, observedCount, percentComplete, ...}`, `flagInfo.hasFlags`. **[verified-live]** |
 | Parameters | pm25 = id 2 (µg/m³), pm10 = id 1. NO₂ and O₃ appear under several ids with different units, which would need unit handling if added later. **[verified-live]** |
-| Latency | Latest readings were at 21:00 UTC on 14 Nov when checked in the early hours of 15 Nov, a lag of a few hours. Not documented. **[verified-live]** |
+| Latency | The latest hourly readings were for 21:00 UTC when checked at ~23:10 UTC, a lag of about 2 hours. Not documented. **[verified-live]** |
 
 ### Station coverage (2026-08-15 to 2026-11-14, 2,208 expected hours)
 
@@ -72,8 +72,9 @@ Docs: https://earthquake.usgs.gov/fdsnws/event/1/
 
 ## 4. Decisions taken
 
-1. **The backfill ends on 2026-11-14** (Open-Meteo hard limit). Incremental ETL continues from there.
+1. **The backfill ends on 2026-11-14** (UTC). Open-Meteo rejects future UTC dates. Incremental ETL continues from there, and its overlap windows replace the provisional values for the latest days.
 2. **Pair weather and air quality by city.** The 9 cities with sensors are matched; Cardiff has weather data only.
 3. **Record the sensor type** (`reference_monitor`) so the dashboard can distinguish reference-grade and low-cost data.
 4. **Overlap windows:** Open-Meteo 7 days, OpenAQ 48 hours, USGS 24 hours on `updatedafter`. Combined with upserts, this keeps re-runs free of duplicates.
 5. **Every timestamp is stored as `TIMESTAMPTZ` in UTC.**
+6. **The pipeline never uses the laptop's local clock.** The laptop runs at UTC+5:30, so 'today' differs from UTC for 5.5 hours a day.
