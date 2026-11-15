@@ -1,0 +1,75 @@
+// Power BI measures for the reporting views. Add each one under New measure.
+// Table names match the views in migration 004_reporting_views.sql.
+
+// ---------- Weather ----------
+
+Avg Temperature (°C) =
+AVERAGE ( v_weather_daily[avg_temperature_c] )
+
+Total Rainfall (mm) =
+SUM ( v_weather_daily[total_precipitation_mm] )
+
+Max Wind (km/h) =
+MAX ( v_weather_daily[max_wind_speed_kmh] )
+
+Days With Rain =
+CALCULATE (
+    COUNTROWS ( v_weather_daily ),
+    v_weather_daily[total_precipitation_mm] > 0
+)
+
+// ---------- Air quality ----------
+
+Avg PM2.5 (µg/m³) =
+AVERAGE ( v_pm25_daily[avg_pm25] )
+
+Days Above WHO Guideline =
+// WHO 2021 guideline for 24-hour mean PM2.5 is 15 µg/m³.
+CALCULATE (
+    COUNTROWS ( v_pm25_daily ),
+    v_pm25_daily[avg_pm25] > 15
+)
+
+Share Of Days Above Guideline =
+DIVIDE ( [Days Above WHO Guideline], COUNTROWS ( v_pm25_daily ) )
+
+Stations Reporting =
+DISTINCTCOUNT ( v_air_quality_hourly[sensor_id] )
+
+// ---------- Earthquakes ----------
+
+Event Count =
+COUNTROWS ( v_earthquakes )
+
+Strongest Event =
+MAX ( v_earthquakes[magnitude] )
+
+Avg Depth (km) =
+AVERAGE ( v_earthquakes[depth_km] )
+
+Tsunami Flags =
+CALCULATE (
+    COUNTROWS ( v_earthquakes ),
+    v_earthquakes[tsunami_flag] = TRUE ()
+)
+
+// ---------- Pipeline health ----------
+
+Last Successful Load =
+CALCULATE (
+    MAX ( v_pipeline_health[finished_at] ),
+    v_pipeline_health[status] = "succeeded"
+)
+
+Failed Runs (last 7 days) =
+CALCULATE (
+    COUNTROWS ( v_pipeline_health ),
+    v_pipeline_health[status] IN { "failed", "partial" },
+    v_pipeline_health[started_at] >= NOW () - 7
+)
+
+Rows Rejected (last 7 days) =
+CALCULATE (
+    SUM ( v_pipeline_health[rows_rejected] ),
+    v_pipeline_health[started_at] >= NOW () - 7
+)
