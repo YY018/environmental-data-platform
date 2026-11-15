@@ -30,3 +30,6 @@ Thumbs.db
 # --- Power BI: reports can hold database connection details ---
 *.pbix
 *.pbit
+
+# Power BI local data cache (may contain database rows)
+**/.pbi/cache.abf

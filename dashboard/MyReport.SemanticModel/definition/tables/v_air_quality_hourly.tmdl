@@ -1,0 +1,135 @@
+table v_air_quality_hourly
+	lineageTag: 7653a6d8-1473-414d-a652-9bd90e28931c
+
+	column city
+		dataType: string
+		lineageTag: 2f116ccf-68f0-4d2e-804b-03de75666e9c
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column station
+		dataType: string
+		lineageTag: 1a13ec31-2c69-4d46-911f-d013af5c983d
+		summarizeBy: none
+		sourceColumn: station
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_reference_monitor
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5c6753d4-088b-401c-b312-ef77226a1697
+		summarizeBy: none
+		sourceColumn: is_reference_monitor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sensor_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 91a5d49d-d837-4ccf-bad7-b9fb993985a6
+		summarizeBy: sum
+		sourceColumn: sensor_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_start
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e483aa4a-92b9-4b1b-b90f-53cce1041108
+		summarizeBy: none
+		sourceColumn: period_start
+
+		variation Variation
+			isDefault
+			relationship: 8bf6ffab-7446-40e8-a9e0-a0e7a0cae8ca
+			defaultHierarchy: LocalDateTable_b3f999eb-5232-4ab3-b0a3-1d76c4d48412.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column reading_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: afbb1ada-b6fd-457d-b2e5-de10bdf470d6
+		summarizeBy: none
+		sourceColumn: reading_date
+
+		variation Variation
+			isDefault
+			relationship: 5522d9c8-3941-4428-b73a-dc0cea6fa425
+			defaultHierarchy: LocalDateTable_2e0cf6bd-ad93-4c6a-ba0a-8642a34a1924.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column pm25
+		dataType: double
+		lineageTag: 2b185f91-1b51-45f1-890a-ac2d02b55f17
+		summarizeBy: sum
+		sourceColumn: pm25
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column min_value
+		dataType: double
+		lineageTag: 24acab16-6946-426b-a3d5-85653d600c6a
+		summarizeBy: sum
+		sourceColumn: min_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_value
+		dataType: double
+		lineageTag: 1ab72b99-2de7-49fe-9ed6-160d23fe7486
+		summarizeBy: sum
+		sourceColumn: max_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column percent_coverage
+		dataType: double
+		lineageTag: 182ea824-8ff9-452c-9a00-3c639061518a
+		summarizeBy: sum
+		sourceColumn: percent_coverage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column has_flags
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 63194a33-232e-4f98-b596-3ed72114e3b8
+		summarizeBy: none
+		sourceColumn: has_flags
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: string
+		lineageTag: 5e663a0f-ab60-4eff-8e08-baf88a6bfc43
+		summarizeBy: none
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_air_quality_hourly = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    analytics_v_air_quality_hourly = Source{[Schema="analytics",Item="v_air_quality_hourly"]}[Data]
+				in
+				    analytics_v_air_quality_hourly
+
+	changedProperty = Name
+

@@ -1,0 +1,101 @@
+table v_weather_hourly
+	lineageTag: 7078c51f-7477-4872-bd21-5c04139d065b
+
+	column city
+		dataType: string
+		lineageTag: 5ca35d79-ea38-4fb6-8ec9-9d1d5e8a9175
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column observed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bf585619-e255-43a6-901d-a637f0cf0780
+		summarizeBy: none
+		sourceColumn: observed_at
+
+		variation Variation
+			isDefault
+			relationship: 70411851-5467-4f7c-a0b4-a50b38988c60
+			defaultHierarchy: LocalDateTable_959b94ca-8173-4cb8-9803-af2ef6afb9ab.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column reading_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7383e57e-6770-4b6c-a7b0-df486cb59771
+		summarizeBy: none
+		sourceColumn: reading_date
+
+		variation Variation
+			isDefault
+			relationship: 1b527c94-89c1-49a4-b57e-f648916a5570
+			defaultHierarchy: LocalDateTable_c87b69e3-298c-4aa7-bb9e-67d5edc7a2d0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column temperature_c
+		dataType: double
+		lineageTag: a58f97cc-49e3-4649-819f-0c25d1122a30
+		summarizeBy: sum
+		sourceColumn: temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column relative_humidity_pct
+		dataType: double
+		lineageTag: f7448b57-137b-4935-bd49-06cc33bb1d8b
+		summarizeBy: sum
+		sourceColumn: relative_humidity_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column precipitation_mm
+		dataType: double
+		lineageTag: df8e9f6a-b9c6-47f0-8d52-1443ca334756
+		summarizeBy: sum
+		sourceColumn: precipitation_mm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column wind_speed_kmh
+		dataType: double
+		lineageTag: 8c24c477-a911-486c-8f80-219aefbb5e1f
+		summarizeBy: sum
+		sourceColumn: wind_speed_kmh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column weather_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 8278aad1-1cbc-46c4-983c-4c82517dd2eb
+		summarizeBy: sum
+		sourceColumn: weather_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_weather_hourly = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    analytics_v_weather_hourly = Source{[Schema="analytics",Item="v_weather_hourly"]}[Data]
+				in
+				    analytics_v_weather_hourly
+
+	changedProperty = Name
+

@@ -1,0 +1,85 @@
+table v_pm25_daily
+	lineageTag: 409628f1-2615-4220-9043-f933a8f8b742
+
+	measure 'Share Of Days Above Guideline' = ```
+			
+			DIVIDE ( [Days Above WHO Guideline], COUNTROWS ( v_pm25_daily ) )
+			
+			
+			
+			
+			```
+		lineageTag: 5ebebad6-5e38-4f3c-ae81-8dff243bdbe8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Days Above WHO Guideline' = ```
+			
+			CALCULATE (
+			    COUNTROWS ( v_pm25_daily ),
+			    v_pm25_daily[avg_pm25] > 15
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 4c3de2c2-6d67-4a3b-bfe9-ca0ca78cf721
+
+	column city
+		dataType: string
+		lineageTag: f550f26d-2957-4e17-9a95-2599247c2055
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column reading_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 85e8bb82-f14c-488f-94b6-36b093761465
+		summarizeBy: none
+		sourceColumn: reading_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column avg_pm25
+		dataType: double
+		lineageTag: 4603e744-c1d2-417f-8bc8-292cb4de87ca
+		summarizeBy: sum
+		sourceColumn: avg_pm25
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_pm25
+		dataType: double
+		lineageTag: 8efa15cf-4013-460f-85f9-1e873a4de9d5
+		summarizeBy: sum
+		sourceColumn: max_pm25
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column stations_reporting
+		dataType: int64
+		formatString: 0
+		lineageTag: 30713d71-5c57-4c7a-b9b8-f3dfddf5b874
+		summarizeBy: sum
+		sourceColumn: stations_reporting
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_pm25_daily = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    analytics_v_pm25_daily = Source{[Schema="analytics",Item="v_pm25_daily"]}[Data]
+				in
+				    analytics_v_pm25_daily
+
+	changedProperty = Name
+
