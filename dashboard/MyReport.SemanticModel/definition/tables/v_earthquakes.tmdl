@@ -1,5 +1,25 @@
 table v_earthquakes
 	lineageTag: 27f37bf6-90f5-4de4-9fe9-4fc1d7eab88a
+	measure 'Earthquake Map Title' = IF ( COUNTROWS ( v_earthquakes ) = 0, "Earthquakes: no events in the current selection", "Earthquakes, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" ) )
+		formatString: 0
+		lineageTag: 7fd0343b-4137-489e-85e4-7fe86932bde2
+
+	measure 'Earthquakes Subtitle' = "Events of magnitude 2.5 and above, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: 14779a0e-3821-48e9-b8fa-406ad6d74029
+
+	measure 'Event Count' = COUNTROWS ( v_earthquakes )
+		formatString: 0
+		lineageTag: 4f15f481-2ee2-46f4-a074-dc775afe5edb
+
+	measure 'Strongest Event' = MAX ( v_earthquakes[magnitude] )
+		formatString: 0.0
+		lineageTag: 36d0d6d5-ae06-47f5-a8d0-08e2bc2252dd
+
+	measure 'Avg Depth (km)' = AVERAGE ( v_earthquakes[depth_km] )
+		formatString: 0.0
+		lineageTag: 962bfd6d-6f18-4f1a-97d0-6910a75d939c
+
 
 	measure 'Tsunami Flags' = ```
 			

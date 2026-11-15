@@ -1,5 +1,21 @@
 table v_weather_daily
 	lineageTag: b579b354-9060-4db4-8a31-3b7d5c110a80
+	measure 'Weather Subtitle' = "Daily weather from " & FORMAT ( MIN ( v_weather_daily[reading_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_weather_daily[reading_date] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: c20115f8-28f3-4b60-a6a3-41daf25f77db
+
+	measure 'Avg Temperature (°C)' = AVERAGE ( v_weather_daily[avg_temperature_c] )
+		formatString: 0.0
+		lineageTag: 1dbb95f4-c795-411e-85bb-66dc7cc1f54d
+
+	measure 'Total Rainfall (mm)' = SUM ( v_weather_daily[total_precipitation_mm] )
+		formatString: 0.0
+		lineageTag: f27533ab-d474-4d4e-b05d-7d02ee007b19
+
+	measure 'Max Wind (km/h)' = MAX ( v_weather_daily[max_wind_speed_kmh] )
+		formatString: 0.0
+		lineageTag: 434e2df2-2245-48d1-9899-fabd2c626241
+
 
 	measure 'Days With Rain' = ```
 			

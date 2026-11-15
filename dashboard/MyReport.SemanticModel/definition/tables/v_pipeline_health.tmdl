@@ -1,5 +1,17 @@
 table v_pipeline_health
 	lineageTag: f6890320-f09b-4cb6-a98c-31ab2163167a
+	measure 'Pipeline Health Subtitle' = "Load runs from " & FORMAT ( MIN ( v_pipeline_health[started_at] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_pipeline_health[started_at] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: 6daed7c8-aab4-482d-a871-e190bd4d2738
+
+	measure 'Status Colour' = SWITCH ( SELECTEDVALUE ( v_pipeline_health[status] ), "failed", "#F4B6B6", "partial", "#FFE08A", "succeeded", "#B7E4B0", "#FFFFFF" )
+		formatString: @
+		lineageTag: edfb1528-95b1-4662-8a1b-eac17b30dbc3
+
+	measure 'Failed or Partial Runs (Last 7 Days)' = CALCULATE ( COUNTROWS ( v_pipeline_health ), v_pipeline_health[status] IN { "failed", "partial" }, v_pipeline_health[started_at] >= NOW () - 7 )
+		formatString: 0
+		lineageTag: eba95c38-18a5-4cdb-b4ce-537b2c492110
+
 
 	measure 'Last Successful Load' = ```
 			

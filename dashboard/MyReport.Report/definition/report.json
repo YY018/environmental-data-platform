@@ -37,6 +37,17 @@
           "type": "BaseTheme"
         }
       ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "gradient_bg17123456789012345.png",
+          "path": "gradient_bg17123456789012345.png",
+          "type": "Image"
+        }
+      ]
     }
   ],
   "settings": {

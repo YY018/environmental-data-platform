@@ -1,5 +1,9 @@
 table v_air_quality_hourly
 	lineageTag: 7653a6d8-1473-414d-a652-9bd90e28931c
+	measure 'Stations Reporting' = DISTINCTCOUNT ( v_air_quality_hourly[sensor_id] )
+		formatString: 0
+		lineageTag: 4b5b2abe-c491-4d4b-ab7d-d3b6d8a5b7d7
+
 
 	column city
 		dataType: string

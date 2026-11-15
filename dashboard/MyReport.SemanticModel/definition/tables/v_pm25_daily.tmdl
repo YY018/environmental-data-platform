@@ -1,5 +1,13 @@
 table v_pm25_daily
 	lineageTag: 409628f1-2615-4220-9043-f933a8f8b742
+	measure 'Air Quality Subtitle' = "Daily PM2.5 from " & FORMAT ( MIN ( v_pm25_daily[reading_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_pm25_daily[reading_date] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: 5b508836-eff9-452d-8254-e73dd4ef53e3
+
+	measure 'Avg PM2.5 (µg/m³)' = AVERAGE ( v_pm25_daily[avg_pm25] )
+		formatString: 0.0
+		lineageTag: 74a64495-14d7-41e9-96a8-3e4aba14353a
+
 
 	measure 'Share Of Days Above Guideline' = ```
 			
@@ -10,6 +18,7 @@ table v_pm25_daily
 			
 			```
 		lineageTag: 5ebebad6-5e38-4f3c-ae81-8dff243bdbe8
+		formatString: 0.0%
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

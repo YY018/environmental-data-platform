@@ -60,7 +60,7 @@ the measures from `measures.dax`.
    - Latitude `v_earthquakes[latitude]`, Longitude `v_earthquakes[longitude]`
    - Size: `v_earthquakes[magnitude]`
    - Tooltips: `place`, `magnitude`, `event_time`, `depth_km`
-   - Title: "Earthquakes, 15 Aug to 14 Nov 2026"
+   - Title: measure `[Earthquake Map Title]` (dynamic, follows the date slicer)
 6. **Column chart**: X-axis `v_earthquakes[event_date]`, Y-axis
    `Event Count`. Title: "Events per day".
 7. **Table**: `place`, `magnitude`, `event_time`, `depth_km`, `tsunami_flag`.
@@ -71,7 +71,7 @@ the measures from `measures.dax`.
 1. Add a new page, rename it `Pipeline health`.
 2. **KPI cards**:
    - `[Last Successful Load]` (format as date and time)
-   - `[Failed Runs (last 7 days)]`
+   - `[Failed or Partial Runs (Last 7 Days)]`
    - `[Rows Rejected (last 7 days)]`
 3. **Table**: source `monitoring.v_pipeline_health`. Columns: `run_id`,
    `run_type`, `trigger`, `status`, `started_at`, `duration_minutes`,
