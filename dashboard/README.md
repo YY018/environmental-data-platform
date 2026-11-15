@@ -47,6 +47,7 @@ gateway.
 
 ## Read-only access
 
-Power BI should not use the owner credentials. Create a read-only role in Neon
-and use that in Power BI instead. This is a one-off SQL step, not part of the
-pipeline.
+Power BI should not use the owner credentials. Create the read-only login once,
+by running `sql/admin/create_powerbi_reader.sql` as the database owner. Replace the
+placeholder password first, and keep the password out of Git. Then use the
+`powerbi_reader` login in Power BI. It can read the reporting views and nothing else.
