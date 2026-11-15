@@ -1,0 +1,32 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["v_air_quality_hourly","v_earthquakes","v_pm25_daily","v_weather_daily","v_weather_hourly","v_pipeline_health","dim_date"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table v_air_quality_hourly
+ref table DateTableTemplate_eaa18347-750c-49e7-9604-0dbcd975adeb
+ref table LocalDateTable_b3f999eb-5232-4ab3-b0a3-1d76c4d48412
+ref table LocalDateTable_2e0cf6bd-ad93-4c6a-ba0a-8642a34a1924
+ref table v_earthquakes
+ref table LocalDateTable_e28c77c4-d283-4ddf-9f48-632fabfb9a95
+ref table v_pm25_daily
+ref table v_weather_daily
+ref table v_weather_hourly
+ref table LocalDateTable_959b94ca-8173-4cb8-9803-af2ef6afb9ab
+ref table LocalDateTable_c87b69e3-298c-4aa7-bb9e-67d5edc7a2d0
+ref table v_pipeline_health
+ref table LocalDateTable_ef3976b3-3ad0-4693-a7cd-421701af4a24
+ref table LocalDateTable_6e582ee0-3df4-4b89-a31b-d45753725a47
+ref table dim_date
+
+ref cultureInfo en-US
+

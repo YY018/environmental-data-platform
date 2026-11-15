@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "1cdcd849c67b56f353b5",
+  "position": {
+    "x": 16,
+    "y": 58,
+    "z": 45,
+    "height": 36,
+    "width": 680,
+    "tabOrder": 45
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Subtitle"
+                      }
+                    },
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "fontWeight": "normal",
+                      "color": "#3A4A5C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_pipeline_health"
+                    }
+                  },
+                  "Property": "Pipeline Health Subtitle"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Subtitle"
+          }
+        }
+      ]
+    }
+  }
+}

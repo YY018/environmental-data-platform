@@ -1,0 +1,177 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "33677d40289e7021dcd3",
+  "position": {
+    "x": 648,
+    "y": 510,
+    "z": 43,
+    "height": 194,
+    "width": 616,
+    "tabOrder": 43
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_earthquakes"
+                    }
+                  },
+                  "Property": "place"
+                }
+              },
+              "queryRef": "v_earthquakes.place",
+              "nativeQueryRef": "place",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_earthquakes"
+                    }
+                  },
+                  "Property": "magnitude"
+                }
+              },
+              "queryRef": "v_earthquakes.magnitude",
+              "nativeQueryRef": "magnitude",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_earthquakes"
+                    }
+                  },
+                  "Property": "event_time"
+                }
+              },
+              "queryRef": "v_earthquakes.event_time",
+              "nativeQueryRef": "event_time",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_earthquakes"
+                    }
+                  },
+                  "Property": "depth_km"
+                }
+              },
+              "queryRef": "v_earthquakes.depth_km",
+              "nativeQueryRef": "depth_km",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_earthquakes"
+                    }
+                  },
+                  "Property": "tsunami_flag"
+                }
+              },
+              "queryRef": "v_earthquakes.tsunami_flag",
+              "nativeQueryRef": "tsunami_flag",
+              "active": true
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "v_earthquakes"
+                  }
+                },
+                "Property": "magnitude"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {},
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Events, largest first'"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Normal'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

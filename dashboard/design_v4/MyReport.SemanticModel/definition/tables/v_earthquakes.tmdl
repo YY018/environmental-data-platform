@@ -1,0 +1,180 @@
+table v_earthquakes
+	lineageTag: 27f37bf6-90f5-4de4-9fe9-4fc1d7eab88a
+	measure 'Earthquake Map Title' = IF ( COUNTROWS ( v_earthquakes ) = 0, "Earthquakes: no events in the current selection", "Earthquakes, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" ) )
+		formatString: 0
+		lineageTag: 7fd0343b-4137-489e-85e4-7fe86932bde2
+
+	measure 'Earthquakes Subtitle' = "Events of magnitude 2.5 and above, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: 14779a0e-3821-48e9-b8fa-406ad6d74029
+
+	measure 'Event Count' = COUNTROWS ( v_earthquakes )
+		formatString: 0
+		lineageTag: 4f15f481-2ee2-46f4-a074-dc775afe5edb
+
+	measure 'Strongest Event' = MAX ( v_earthquakes[magnitude] )
+		formatString: 0.0
+		lineageTag: 36d0d6d5-ae06-47f5-a8d0-08e2bc2252dd
+
+	measure 'Avg Depth (km)' = AVERAGE ( v_earthquakes[depth_km] )
+		formatString: 0.0
+		lineageTag: 962bfd6d-6f18-4f1a-97d0-6910a75d939c
+
+
+	measure 'Tsunami Flags' = ```
+			
+			CALCULATE (
+			    COUNTROWS ( v_earthquakes ),
+			    v_earthquakes[tsunami_flag] = TRUE ()
+			)
+			
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 2a867715-f8f1-4295-a886-1e7478cccbe9
+
+	column event_id
+		dataType: string
+		lineageTag: ce77cdac-8f33-4864-a286-1e59a6d7b9c6
+		summarizeBy: none
+		sourceColumn: event_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4d0c6263-bbf8-4750-9a92-01069a073d96
+		summarizeBy: none
+		sourceColumn: event_time
+
+		variation Variation
+			isDefault
+			relationship: ca1fe2c8-ebca-487f-b718-efd52314a70a
+			defaultHierarchy: LocalDateTable_e28c77c4-d283-4ddf-9f48-632fabfb9a95.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1c28ec8a-f1ee-4a13-b291-fabfbf953c34
+		summarizeBy: none
+		sourceColumn: event_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column magnitude
+		dataType: double
+		lineageTag: e3961778-f502-48a6-8f5d-40e6af6ff85e
+		summarizeBy: sum
+		sourceColumn: magnitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column magnitude_type
+		dataType: string
+		lineageTag: 64eb1f86-2f1c-4d84-a7ac-f8ee0c14169a
+		summarizeBy: none
+		sourceColumn: magnitude_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column place
+		dataType: string
+		lineageTag: 2f798b87-fd3b-4234-a164-98b218171464
+		summarizeBy: none
+		sourceColumn: place
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 37ac1425-3d62-45d9-a952-f6f25ae4d7a6
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: dfa3a7cd-1535-4fdf-b998-ed51f6d76f3b
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column depth_km
+		dataType: double
+		lineageTag: cf6ff523-2137-490f-a382-2e2dea9b0b0f
+		summarizeBy: sum
+		sourceColumn: depth_km
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column significance
+		dataType: int64
+		formatString: 0
+		lineageTag: 806ea3cf-2198-438f-9280-e21def10281e
+		summarizeBy: sum
+		sourceColumn: significance
+
+		annotation SummarizationSetBy = Automatic
+
+	column felt_reports
+		dataType: int64
+		formatString: 0
+		lineageTag: 863f66d7-9f1e-4526-8a20-c8fd98bbe62a
+		summarizeBy: sum
+		sourceColumn: felt_reports
+
+		annotation SummarizationSetBy = Automatic
+
+	column tsunami_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9325c29d-2eca-436a-81b0-d0e9b89638d2
+		summarizeBy: none
+		sourceColumn: tsunami_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_status
+		dataType: string
+		lineageTag: 8f55e84a-5b1a-49ba-b196-deabbbfa5e77
+		summarizeBy: none
+		sourceColumn: review_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type
+		dataType: string
+		lineageTag: 4666951f-7218-4e69-a5d0-fc08f4d48b20
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_earthquakes = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    analytics_v_earthquakes = Source{[Schema="analytics",Item="v_earthquakes"]}[Data]
+				in
+				    analytics_v_earthquakes
+
+	changedProperty = Name
+
