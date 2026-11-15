@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 import logging
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable, Iterable
 
 from src.config import AppConfig, load_config
@@ -91,15 +91,54 @@ def _run_source(engine, run_id: int, name: str, results: Iterable[ExtractResult]
     return loaded_total
 
 
+Plan = tuple[date, date, datetime | None]  # (start, end, updated_after for USGS)
+
+
+def incremental_plan(name: str, sources: dict[str, Any], backfill_start: date, today: date,
+                     watermark: datetime | None) -> Plan:
+    """Date window and USGS 'updatedafter' for an incremental run of one source.
+
+    Starts from the oldest checkpoint minus the source's overlap window, so late
+    or revised data is re-fetched. With no checkpoint yet, falls back to the
+    full backfill range.
+    """
+    cfg = sources[name]
+    if name == "usgs":
+        after = watermark - timedelta(hours=cfg["incremental_overlap_hours"]) if watermark else None
+        return backfill_start, today, after
+    if watermark is None:
+        return backfill_start, today, None
+    if name == "open_meteo":
+        overlap = timedelta(days=cfg["incremental_overlap_days"])
+    else:  # openaq
+        overlap = timedelta(hours=cfg["incremental_overlap_hours"])
+    return (watermark - overlap).date(), today, None
+
+
 def run_backfill(start: date, end: date, trigger: str = "local", cfg: AppConfig | None = None) -> dict[str, Any]:
+    return _run_pipeline("backfill", trigger, cfg, lambda _engine, _name, _sources: (start, end, None))
+
+
+def run_incremental(trigger: str = "local", cfg: AppConfig | None = None) -> dict[str, Any]:
+    cfg = cfg or load_config()
+    backfill_start = date.fromisoformat(cfg.settings["backfill"]["start_date"])
+    today = datetime.now(timezone.utc).date()
+
+    def plan_for(engine, name: str, sources: dict[str, Any]) -> Plan:
+        return incremental_plan(name, sources, backfill_start, today, loader.min_checkpoint(engine, name))
+
+    return _run_pipeline("incremental", trigger, cfg, plan_for)
+
+
+def _run_pipeline(run_type: str, trigger: str, cfg: AppConfig | None, plan_for) -> dict[str, Any]:
     cfg = cfg or load_config()
     sources = cfg.sources
     http_cfg = cfg.settings["http"]
     raw = RawStore(cfg.path("raw_data"))
     engine = get_engine()
 
-    run_id = loader.start_run(engine, "backfill", trigger)
-    log.info("run started", extra={"run_id": run_id, "start": str(start), "end": str(end)})
+    run_id = loader.start_run(engine, run_type, trigger)
+    log.info("run started", extra={"run_id": run_id, "run_type": run_type})
     errors: dict[str, str] = {}
     enabled = [name for name in SOURCE_NAMES if sources[name].get("enabled")]
 
@@ -119,6 +158,8 @@ def run_backfill(start: date, end: date, trigger: str = "local", cfg: AppConfig 
 
     for name in enabled:
         try:
+            start, end, updated_after = plan_for(engine, name, sources)
+            log.info("source window", extra={"source": name, "start": str(start), "end": str(end)})
             client = HttpClient.from_settings(http_cfg)
             if name == "open_meteo":
                 results = open_meteo.extract(client, raw, sources[name], start, end)
@@ -129,7 +170,7 @@ def run_backfill(start: date, end: date, trigger: str = "local", cfg: AppConfig 
                 mapping = {s["sensor_id"]: s["location_id"] for s in sources[name]["sensors"]}
                 handler = _make_aq_handler(mapping)
             else:
-                results = usgs.extract(client, raw, sources[name], start, end)
+                results = usgs.extract(client, raw, sources[name], start, end, updated_after=updated_after)
                 handler = _handle_earthquakes
             _run_source(engine, run_id, name, results, handler)
         except Exception as exc:
@@ -153,13 +194,20 @@ def main(argv: list[str] | None = None) -> int:
     from src.monitoring.logger import configure_logging
 
     cfg = load_config()
-    parser = argparse.ArgumentParser(description="Backfill environmental data into Postgres.")
-    parser.add_argument("--start", default=cfg.settings["backfill"]["start_date"])
-    parser.add_argument("--end", default=cfg.settings["backfill"]["end_date"])
+    parser = argparse.ArgumentParser(description="Load environmental data into Postgres.")
+    parser.add_argument("--mode", choices=["incremental", "backfill"], default="incremental",
+                        help="incremental: resume from checkpoints (default). backfill: fixed date range.")
+    parser.add_argument("--start", default=cfg.settings["backfill"]["start_date"], help="backfill only")
+    parser.add_argument("--end", default=cfg.settings["backfill"]["end_date"], help="backfill only")
+    parser.add_argument("--trigger", choices=["local", "schedule", "manual"], default="local")
     args = parser.parse_args(argv)
 
     configure_logging(cfg.settings["logging"]["level"], cfg.path("logs") / "pipeline.log")
-    summary = run_backfill(date.fromisoformat(args.start), date.fromisoformat(args.end), cfg=cfg)
+    if args.mode == "backfill":
+        summary = run_backfill(date.fromisoformat(args.start), date.fromisoformat(args.end),
+                               trigger=args.trigger, cfg=cfg)
+    else:
+        summary = run_incremental(trigger=args.trigger, cfg=cfg)
     print(f"Run {summary['run_id']}: {summary['status']}")
     for source, message in summary["errors"].items():
         print(f"  {source}: {message}")

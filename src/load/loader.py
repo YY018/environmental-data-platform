@@ -185,6 +185,21 @@ def seed_locations(conn: Connection, cities: list[dict[str, Any]], stations: lis
     """), city_rows + station_rows)
 
 
+# ---------- checkpoints ----------
+
+def min_checkpoint(engine: Engine, source_id: str) -> datetime | None:
+    """Oldest high-water mark across a source's entities.
+
+    Using the minimum means no entity can be left with a gap: the oldest one
+    sets where the next incremental run starts.
+    """
+    with engine.connect() as conn:
+        return conn.execute(text("""
+            SELECT MIN(high_watermark) FROM monitoring.ingestion_checkpoints
+            WHERE source_id = :source
+        """), {"source": source_id}).scalar()
+
+
 # ---------- runs ----------
 
 def start_run(engine: Engine, run_type: str, trigger: str) -> int:
