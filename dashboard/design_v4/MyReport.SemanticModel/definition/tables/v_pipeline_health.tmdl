@@ -1,0 +1,157 @@
+table v_pipeline_health
+	lineageTag: f6890320-f09b-4cb6-a98c-31ab2163167a
+	measure 'Load Status Text' = "Last successful load: " & FORMAT ( [Last Successful Load], "d mmm yyyy hh:mm" )
+		formatString: @
+		lineageTag: 06007edf-2346-4e67-9594-b30c5e3d5d6d
+
+	measure 'Pipeline Health Subtitle' = "Load runs from " & FORMAT ( MIN ( v_pipeline_health[started_at] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_pipeline_health[started_at] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: 6daed7c8-aab4-482d-a871-e190bd4d2738
+
+	measure 'Status Colour' = SWITCH ( SELECTEDVALUE ( v_pipeline_health[status] ), "failed", "#F4B6B6", "partial", "#FFE08A", "succeeded", "#B7E4B0", "#FFFFFF" )
+		formatString: @
+		lineageTag: edfb1528-95b1-4662-8a1b-eac17b30dbc3
+
+	measure 'Failed or Partial Runs (Last 7 Days)' = CALCULATE ( COUNTROWS ( v_pipeline_health ), v_pipeline_health[status] IN { "failed", "partial" }, v_pipeline_health[started_at] >= NOW () - 7 )
+		formatString: 0
+		lineageTag: eba95c38-18a5-4cdb-b4ce-537b2c492110
+
+
+	measure 'Last Successful Load' = ```
+			
+			CALCULATE (
+			    MAX ( v_pipeline_health[finished_at] ),
+			    v_pipeline_health[status] = "succeeded"
+			)
+			
+			```
+		lineageTag: 750a650e-d6c8-437f-b9f8-c78814c3fc4a
+
+	measure 'Rows Rejected (last 7 days)' = ```
+			
+			CALCULATE (
+			    SUM ( v_pipeline_health[rows_rejected] ),
+			    v_pipeline_health[started_at] >= NOW () - 7
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 0017d3a7-0897-431a-a9a5-fe25cef80fcf
+
+	column run_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 11601d52-3dfa-416e-a573-2103ffed3a4d
+		summarizeBy: sum
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_type
+		dataType: string
+		lineageTag: 975bab07-4474-4316-9d97-ff1b885f6e04
+		summarizeBy: none
+		sourceColumn: run_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column trigger
+		dataType: string
+		lineageTag: 443cb8a7-0482-41b4-b8c3-74d4db579765
+		summarizeBy: none
+		sourceColumn: trigger
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 89ada8e2-279c-4609-bf70-bde6a6a9525d
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column started_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 67f06d09-b215-4640-9465-bbe67216804c
+		summarizeBy: none
+		sourceColumn: started_at
+
+		variation Variation
+			isDefault
+			relationship: eed5e6ae-3eea-45cc-b0e8-00f2dcfbad4c
+			defaultHierarchy: LocalDateTable_ef3976b3-3ad0-4693-a7cd-421701af4a24.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column finished_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b83bb53c-b2bb-423e-941f-3b7b8a970282
+		summarizeBy: none
+		sourceColumn: finished_at
+
+		variation Variation
+			isDefault
+			relationship: 087163d8-286f-4166-8225-e81b4ae2d763
+			defaultHierarchy: LocalDateTable_6e582ee0-3df4-4b89-a31b-d45753725a47.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration_minutes
+		dataType: double
+		lineageTag: 8364f098-6cd6-4696-9315-1c55764abe07
+		summarizeBy: sum
+		sourceColumn: duration_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rows_extracted
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ea427d4-7a88-4623-9370-a380617d1182
+		summarizeBy: sum
+		sourceColumn: rows_extracted
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_loaded
+		dataType: int64
+		formatString: 0
+		lineageTag: a8983f6a-12c9-43d1-8fdc-48c145d0b42f
+		summarizeBy: sum
+		sourceColumn: rows_loaded
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_rejected
+		dataType: int64
+		formatString: 0
+		lineageTag: ae955031-7dae-4382-bf93-59475940cdbb
+		summarizeBy: sum
+		sourceColumn: rows_rejected
+
+		annotation SummarizationSetBy = Automatic
+
+	column error_message
+		dataType: string
+		lineageTag: a0e0f9d8-91e4-4d74-bbda-b527c75717a4
+		summarizeBy: none
+		sourceColumn: error_message
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_pipeline_health = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    monitoring_v_pipeline_health = Source{[Schema="monitoring",Item="v_pipeline_health"]}[Data]
+				in
+				    monitoring_v_pipeline_health
+
+	changedProperty = Name
+

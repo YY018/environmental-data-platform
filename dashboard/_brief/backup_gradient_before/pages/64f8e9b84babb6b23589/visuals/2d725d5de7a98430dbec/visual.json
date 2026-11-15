@@ -1,0 +1,177 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "2d725d5de7a98430dbec",
+  "position": {
+    "x": 648,
+    "y": 320,
+    "z": 28,
+    "height": 384,
+    "width": 616,
+    "tabOrder": 28
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_air_quality_hourly"
+                    }
+                  },
+                  "Property": "city"
+                }
+              },
+              "queryRef": "v_air_quality_hourly.city",
+              "nativeQueryRef": "city",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_air_quality_hourly"
+                    }
+                  },
+                  "Property": "station"
+                }
+              },
+              "queryRef": "v_air_quality_hourly.station",
+              "nativeQueryRef": "station",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_air_quality_hourly"
+                    }
+                  },
+                  "Property": "is_reference_monitor"
+                }
+              },
+              "queryRef": "v_air_quality_hourly.is_reference_monitor",
+              "nativeQueryRef": "is_reference_monitor",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_air_quality_hourly"
+                    }
+                  },
+                  "Property": "pm25"
+                }
+              },
+              "queryRef": "v_air_quality_hourly.pm25",
+              "nativeQueryRef": "pm25",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_air_quality_hourly"
+                    }
+                  },
+                  "Property": "period_start"
+                }
+              },
+              "queryRef": "v_air_quality_hourly.period_start",
+              "nativeQueryRef": "period_start",
+              "active": true
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "v_air_quality_hourly"
+                  }
+                },
+                "Property": "period_start"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {},
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Latest station readings'"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Normal'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

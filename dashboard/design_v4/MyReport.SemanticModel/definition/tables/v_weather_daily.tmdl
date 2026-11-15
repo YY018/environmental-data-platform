@@ -1,0 +1,141 @@
+table v_weather_daily
+	lineageTag: b579b354-9060-4db4-8a31-3b7d5c110a80
+	measure 'Weather Subtitle' = "Daily weather from " & FORMAT ( MIN ( v_weather_daily[reading_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_weather_daily[reading_date] ), "d mmm yyyy" )
+		formatString: 0
+		lineageTag: c20115f8-28f3-4b60-a6a3-41daf25f77db
+
+	measure 'Avg Temperature (°C)' = AVERAGE ( v_weather_daily[avg_temperature_c] )
+		formatString: 0.0
+		lineageTag: 1dbb95f4-c795-411e-85bb-66dc7cc1f54d
+
+	measure 'Total Rainfall (mm)' = SUM ( v_weather_daily[total_precipitation_mm] )
+		formatString: 0.0
+		lineageTag: f27533ab-d474-4d4e-b05d-7d02ee007b19
+
+	measure 'Max Wind (km/h)' = MAX ( v_weather_daily[max_wind_speed_kmh] )
+		formatString: 0.0
+		lineageTag: 434e2df2-2245-48d1-9899-fabd2c626241
+
+
+	measure 'Days With Rain' = ```
+			
+			CALCULATE (
+			    COUNTROWS ( v_weather_daily ),
+			    v_weather_daily[total_precipitation_mm] > 0
+			)
+			
+			
+			```
+		lineageTag: 272d0d48-ed44-453e-9bd8-3434c3705a4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column city
+		dataType: string
+		lineageTag: cb172d1b-d86e-4165-9989-b37aee0ed9f7
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column reading_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: edd8c48d-0731-4835-97fb-62fe3e8ec0de
+		summarizeBy: none
+		sourceColumn: reading_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column avg_temperature_c
+		dataType: double
+		lineageTag: 21d623cf-4f18-487d-b811-02cfb41420b0
+		summarizeBy: sum
+		sourceColumn: avg_temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column min_temperature_c
+		dataType: double
+		lineageTag: cc3848e0-20a0-493a-bcec-490f2982ed6c
+		summarizeBy: sum
+		sourceColumn: min_temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_temperature_c
+		dataType: double
+		lineageTag: 1fb89652-bdb8-4123-8b8f-5bda96a15a01
+		summarizeBy: sum
+		sourceColumn: max_temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_humidity_pct
+		dataType: double
+		lineageTag: b5081a24-dc79-468a-abfd-8686f4abe96c
+		summarizeBy: sum
+		sourceColumn: avg_humidity_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_precipitation_mm
+		dataType: double
+		lineageTag: 5b789227-fd99-44d7-87f3-5adb1990843a
+		summarizeBy: sum
+		sourceColumn: total_precipitation_mm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_wind_speed_kmh
+		dataType: double
+		lineageTag: d570fa2e-62e3-41e5-b4bb-2bb257718ab6
+		summarizeBy: sum
+		sourceColumn: avg_wind_speed_kmh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column max_wind_speed_kmh
+		dataType: double
+		lineageTag: 67791a7c-bb3b-4cfe-afd1-583394f187f0
+		summarizeBy: sum
+		sourceColumn: max_wind_speed_kmh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hours_observed
+		dataType: int64
+		formatString: 0
+		lineageTag: 94532298-307b-494f-af6a-419a94af9f76
+		summarizeBy: sum
+		sourceColumn: hours_observed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_weather_daily = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("ep-late-haze-zag3wnq3-pooler.c-2.eu-west-2.aws.neon.tech:5432", "neondb"),
+				    analytics_v_weather_daily = Source{[Schema="analytics",Item="v_weather_daily"]}[Data]
+				in
+				    analytics_v_weather_daily
+
+	changedProperty = Name
+

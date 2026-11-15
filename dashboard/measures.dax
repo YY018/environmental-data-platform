@@ -55,13 +55,16 @@ CALCULATE (
 
 // ---------- Pipeline health ----------
 
+// Subtitle and colour helpers (dynamic text and table colouring).
+
+
 Last Successful Load =
 CALCULATE (
     MAX ( v_pipeline_health[finished_at] ),
     v_pipeline_health[status] = "succeeded"
 )
 
-Failed Runs (last 7 days) =
+Failed or Partial Runs (Last 7 Days) =
 CALCULATE (
     COUNTROWS ( v_pipeline_health ),
     v_pipeline_health[status] IN { "failed", "partial" },
@@ -72,4 +75,35 @@ Rows Rejected (last 7 days) =
 CALCULATE (
     SUM ( v_pipeline_health[rows_rejected] ),
     v_pipeline_health[started_at] >= NOW () - 7
+)
+
+// ---------- Dynamic titles and subtitles ----------
+
+Weather Subtitle =
+"Daily weather from " & FORMAT ( MIN ( v_weather_daily[reading_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_weather_daily[reading_date] ), "d mmm yyyy" )
+
+Air Quality Subtitle =
+"Daily PM2.5 from " & FORMAT ( MIN ( v_pm25_daily[reading_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_pm25_daily[reading_date] ), "d mmm yyyy" )
+
+Earthquake Map Title =
+IF (
+    COUNTROWS ( v_earthquakes ) = 0,
+    "Earthquakes: no events in the current selection",
+    "Earthquakes, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" )
+)
+
+Earthquakes Subtitle =
+"Events of magnitude 2.5 and above, " & FORMAT ( MIN ( v_earthquakes[event_date] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_earthquakes[event_date] ), "d mmm yyyy" )
+
+Pipeline Health Subtitle =
+"Load runs from " & FORMAT ( MIN ( v_pipeline_health[started_at] ), "d mmm yyyy" ) & " to " & FORMAT ( MAX ( v_pipeline_health[started_at] ), "d mmm yyyy" )
+
+// Background colour for the status cell (table conditional formatting).
+Status Colour =
+SWITCH (
+    SELECTEDVALUE ( v_pipeline_health[status] ),
+    "failed", "#F4B6B6",
+    "partial", "#FFE08A",
+    "succeeded", "#B7E4B0",
+    "#FFFFFF"
 )

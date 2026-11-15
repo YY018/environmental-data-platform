@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "0be2df2c2be76c554d4d",
+  "position": {
+    "x": 16,
+    "y": 6,
+    "z": 29,
+    "height": 54,
+    "width": 680,
+    "tabOrder": 29
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Earthquakes",
+                    "textStyle": {
+                      "fontSize": "24px",
+                      "fontWeight": "bold",
+                      "color": "#0B2545"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

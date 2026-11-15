@@ -1,0 +1,25 @@
+{
+  "name": "Gradient Overlay",
+  "dataColors": ["#5E469C", "#D82C86", "#F6C85F", "#FFFFFF", "#3B2A6B", "#A8236A"],
+  "background": "#FFFFFF",
+  "foreground": "#24364B",
+  "tableAccent": "#5E469C",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 15
+          }
+        ],
+        "border": [
+          {
+            "color": { "solid": { "color": "#5E469C" } },
+            "transparency": 40
+          }
+        ]
+      }
+    }
+  }
+}

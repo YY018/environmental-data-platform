@@ -1,0 +1,47 @@
+relationship 8bf6ffab-7446-40e8-a9e0-a0e7a0cae8ca
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_air_quality_hourly.period_start
+	toColumn: LocalDateTable_b3f999eb-5232-4ab3-b0a3-1d76c4d48412.Date
+
+relationship 5522d9c8-3941-4428-b73a-dc0cea6fa425
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_air_quality_hourly.reading_date
+	toColumn: LocalDateTable_2e0cf6bd-ad93-4c6a-ba0a-8642a34a1924.Date
+
+relationship ca1fe2c8-ebca-487f-b718-efd52314a70a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_earthquakes.event_time
+	toColumn: LocalDateTable_e28c77c4-d283-4ddf-9f48-632fabfb9a95.Date
+
+relationship 70411851-5467-4f7c-a0b4-a50b38988c60
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_weather_hourly.observed_at
+	toColumn: LocalDateTable_959b94ca-8173-4cb8-9803-af2ef6afb9ab.Date
+
+relationship 1b527c94-89c1-49a4-b57e-f648916a5570
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_weather_hourly.reading_date
+	toColumn: LocalDateTable_c87b69e3-298c-4aa7-bb9e-67d5edc7a2d0.Date
+
+relationship eed5e6ae-3eea-45cc-b0e8-00f2dcfbad4c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_pipeline_health.started_at
+	toColumn: LocalDateTable_ef3976b3-3ad0-4693-a7cd-421701af4a24.Date
+
+relationship 087163d8-286f-4166-8225-e81b4ae2d763
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_pipeline_health.finished_at
+	toColumn: LocalDateTable_6e582ee0-3df4-4b89-a31b-d45753725a47.Date
+
+relationship fc960857-527c-5686-633b-ba81297ee4ef
+	fromColumn: v_weather_daily.reading_date
+	toColumn: dim_date.date_value
+
+relationship 29093c5d-f0c3-f5ae-24b3-d6c5f15af982
+	fromColumn: v_pm25_daily.reading_date
+	toColumn: dim_date.date_value
+
+relationship e8d03a2b-0957-a0be-b34f-010c23adb150
+	fromColumn: v_earthquakes.event_date
+	toColumn: dim_date.date_value
+
